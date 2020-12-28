@@ -8,8 +8,19 @@
     "start": "next start"
   },
   "dependencies": {
+    "cloudinary": "^1.23.0",
+    "dataloader": "^2.0.0",
     "next": "10.0.4",
     "react": "17.0.1",
     "react-dom": "17.0.1"
+  },
+  "devDependencies": {
+    "prettier": "^2.2.1"
+  },
+  "prettier": {
+    "arrowParens": "avoid",
+    "bracketSpacing": true,
+    "trailingComma": "es5",
+    "printWidth": 80
   }
 }

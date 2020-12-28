@@ -32,3 +32,9 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# intellij config
+.idea/
+
+# coverage files
+nyc_output/
