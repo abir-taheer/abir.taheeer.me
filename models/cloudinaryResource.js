@@ -11,13 +11,12 @@ const CloudinaryResourceSchema = new mongoose.Schema({
   height: Number,
   format: String,
   resourceType: String,
+  tags: [String],
   createdAt: Date,
 });
 
-CloudinaryResourceSchema.statics.idLoader = new DataLoader(async function (
-  publicIds
-) {
-  const ids = Array.from(new Set(publicIds));
+CloudinaryResourceSchema.statics.idLoader = new DataLoader(async publicIds => {
+  const ids = [...new Set(publicIds)];
 
   const idMap = {};
 
@@ -45,6 +44,7 @@ CloudinaryResourceSchema.statics.idLoader = new DataLoader(async function (
     height: details.height,
     format: details.format,
     resourceType: details.resource_type,
+    tags: details.tags,
     createdAt: details.created_at,
   }));
 
@@ -55,7 +55,7 @@ CloudinaryResourceSchema.statics.idLoader = new DataLoader(async function (
     idMap[resource._id] = resource;
   });
 
-  return ids.map(id => idMap[id] || null);
+  return publicIds.map(id => idMap[id] || null);
 });
 
 const CloudinaryResource =

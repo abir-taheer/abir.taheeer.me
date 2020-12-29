@@ -1,4 +1,5 @@
 import Album from "./Album";
+import CloudinaryResource from "./CloudinaryResource";
 import Person from "./Person";
 import Picture from "./Picture";
 import Query from "./Query";
@@ -9,6 +10,7 @@ import { GraphQLDate, GraphQLTime, GraphQLDateTime } from "graphql-iso-date";
 
 const Resolvers = {
   Album,
+  CloudinaryResource,
   Person,
   Picture,
   Query,
