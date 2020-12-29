@@ -7,8 +7,13 @@ export default gql`
     description: String
     takenAt: DateTime
 
-    # Dynamic Props
+    # Dynamic Props ----
+    # Cloudinary Resource Object to facilitate access
     resource: CloudinaryResource
+    # The people in the photo
     people: [Person]
+
+    # Albums that contain this photo
+    albums: [Album]
   }
 `;
