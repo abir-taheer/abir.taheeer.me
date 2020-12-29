@@ -1,4 +1,5 @@
 import mongoose from "./mongoose";
+import findOneLoaderFactory from "../utils/dataloaders/findOneLoaderFactory";
 
 const PersonSchema = new mongoose.Schema({
   firstName: String,
@@ -14,6 +15,8 @@ const PersonSchema = new mongoose.Schema({
     email: String,
   },
 });
+
+PersonSchema.statics.idLoader = findOneLoaderFactory("Person");
 
 const Person = mongoose.models.Person || mongoose.model("Person", PersonSchema);
 
