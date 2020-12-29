@@ -1,10 +1,10 @@
 import Album from "./Album";
 import Person from "./Person";
+import Picture from "./Picture";
 
 // Scalars
 import ObjectId from "graphql-scalar-objectid";
 import { GraphQLDate, GraphQLTime, GraphQLDateTime } from "graphql-iso-date";
-import Picture from "./Picture";
 
 const Resolvers = {
   Album,
