@@ -8,7 +8,7 @@ const PictureSchema = new Schema({
   title: String,
   description: String,
   resourceId: String,
-  peopleIds: [ObjectId],
+  personIds: [ObjectId],
   takenAt: Date,
 });
 
