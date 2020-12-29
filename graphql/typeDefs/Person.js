@@ -17,6 +17,7 @@ export default gql`
     social: SocialMedia
 
     # Dynamic props
+    name: String
     picture: CloudinaryResource
   }
 `;

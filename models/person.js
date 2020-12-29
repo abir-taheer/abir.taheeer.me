@@ -5,7 +5,7 @@ const PersonSchema = new mongoose.Schema({
   firstName: String,
   lastName: String,
   // Public Id
-  picId: String,
+  pictureId: String,
   social: {
     facebook: String,
     twitter: String,
