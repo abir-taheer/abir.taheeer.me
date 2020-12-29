@@ -1,6 +1,7 @@
 import Album from "./Album";
 import Person from "./Person";
 import Picture from "./Picture";
+import Query from "./Query";
 
 // Scalars
 import ObjectId from "graphql-scalar-objectid";
@@ -10,6 +11,7 @@ const Resolvers = {
   Album,
   Person,
   Picture,
+  Query,
 
   // Custom Scalar Types
   ObjectId,
