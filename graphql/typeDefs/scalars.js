@@ -1,8 +1,8 @@
 import { gql } from "apollo-server-micro";
 
 export default gql`
-  type Query {
-    sessionId: String
-    albums: [Album]
-  }
+  scalar ObjectId
+  scalar Date
+  scalar Time
+  scalar DateTime
 `;
