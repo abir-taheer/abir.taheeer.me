@@ -1,75 +1,89 @@
 import Head from "next/head";
 
 import Album from "../../../models/album";
+import Picture from "../../../models/picture";
 import CloudinaryResource from "../../../models/cloudinaryResource";
 import { v2 as cloudinary } from "cloudinary";
+import styles from "../../../styles/layout.module.css";
+import PictureGrid from "../../../comps/album/PictureGrid";
 
-export async function getStaticProps({ params: { albumUrl } }) {
-  const { title, description, coverPicId } = await Album.findOne({
+function normalizeResource(resource, height = 500) {
+  const scaleFactor = resource.height / height;
+  const width = Math.floor(resource.width / scaleFactor);
+  const format = resource.format;
+
+  const tags = resource.tags;
+  const url = cloudinary.url(resource.id, {
+    secure: true,
+    sign_url: true,
+    quality: 85,
+    height,
+  });
+
+  return {
+    height,
+    width,
+    format,
+    url,
+    tags,
+  };
+}
+
+export async function getServerSideProps({ params: { albumUrl } }) {
+  const album = await Album.findOne({
     url: albumUrl,
   });
 
+  const { title, description, coverPicId, pictureIds } = album;
+
   const coverResource = await CloudinaryResource.findById(coverPicId);
 
-  const scaleFactor = coverResource.height / 800;
-  const width = Math.floor(coverResource.width / scaleFactor);
-  const height = 800;
-  const type = coverResource.format;
+  const pictures = await Picture.find({ _id: { $in: pictureIds } });
 
-  const url = cloudinary.url(coverPicId, {
-    secure: true,
-    height: 800,
-    sign_url: true,
-    quality: 85,
-  });
-  const alt = coverResource.tags.join(", ");
-
-  const cover = {
-    height,
-    width,
-    type,
-    url,
-    alt,
-  };
+  const completePictures = await Promise.all(
+    pictures.map(async ({ id, resourceId }) => ({
+      id,
+      resource: normalizeResource(
+        await CloudinaryResource.idLoader.load(resourceId),
+        350
+      ),
+    }))
+  );
 
   return {
     props: {
       title,
       description,
-      cover,
+      cover: normalizeResource(coverResource),
+      pictures: completePictures,
     },
   };
 }
 
-export async function getStaticPaths() {
-  /** @type Array */
-  const albums = await Album.find();
-
-  return {
-    paths: albums.map(a => ({
-      params: {
-        albumUrl: a.url,
-      },
-    })),
-    fallback: false,
-  };
-}
-
-export default function Gallery({ title, description, cover }) {
+export default function AlbumPage({ title, description, cover, pictures }) {
   return (
     <>
       <Head>
         <title>{title} | Abir Taheer</title>
-        <meta property="og:title" content={title + " | Abir Taheer"} />
+        <meta property="og:title" content={title + " Album | Abir Taheer"} />
+        <meta property="description" content={description} />
         <meta property="og:description" content={description} />
         <meta property="og:image" content={cover.url} />
         <meta property="og:image:secure_url" content={cover.url} />
         <meta property="og:image:type" content={cover.type} />
         <meta property="og:image:width" content={cover.width} />
         <meta property="og:image:height" content={cover.height} />
-        <meta property="og:image:alt" content={cover.alt} />
+        <meta property="og:image:alt" content={cover.tags?.join(", ")} />
       </Head>
-      <img src={cover.url} alt={cover.alt} />
+      <div className={styles.container}>
+        <main className={styles.main}>
+          <h1>{title}</h1>
+
+          <div className={styles.albumContainer}>
+            <PictureGrid pictures={pictures} />
+          </div>
+        </main>
+      </div>
     </>
   );
 }

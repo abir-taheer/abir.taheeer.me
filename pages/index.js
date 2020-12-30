@@ -1,6 +1,6 @@
 import Head from "next/head";
 import icon from "./../images/icon.png";
-import styles from "../styles/Home.module.css";
+import styles from "../styles/layout.module.css";
 
 export default function Home() {
   return (
