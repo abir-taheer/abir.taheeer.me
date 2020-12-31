@@ -45,7 +45,7 @@ export async function getServerSideProps({ params: { albumUrl } }) {
       id,
       resource: normalizeResource(
         await CloudinaryResource.idLoader.load(resourceId),
-        300
+        500
       ),
     }))
   );

@@ -9,11 +9,11 @@ const PictureGrid = ({ pictures }) => {
   useEffect(() => {
     if (galleryRef.current) {
       $(galleryRef.current).justifiedGallery({
-        maxRowHeight: 300,
+        maxRowHeight: 500,
         rowHeight: 250,
         margins: 5,
         randomize: false,
-        lastRow: "center",
+        lastRow: "justify",
         captions: false,
         justifyThreshold: 0.6,
       });
